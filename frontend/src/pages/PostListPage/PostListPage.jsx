@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { Link } from "react-router";
 import * as postService from '../../services/postService'
 export default function PostListPage () {
     const[posts, setPosts] = useState([]);
@@ -14,7 +15,9 @@ export default function PostListPage () {
       <h1>Post List</h1>
       {posts.length ? 
         <ul>
-            {posts.map((post) => <li key={post._id}>{post.content}</li>)}
+            {posts.map((post) => <li key={post._id} >
+              <Link to={`/posts/${post._id}`}>{post.title}</Link>
+              </li>)}
 
         </ul>
         :

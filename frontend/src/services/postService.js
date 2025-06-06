@@ -12,3 +12,7 @@ export async function create(postData) {
 
 }
 
+export async function show (id) {
+  return sendRequest(`${BASE_URL}/${id}`);
+
+}

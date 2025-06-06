@@ -8,6 +8,7 @@ import NavBar from '../../components/NavBar/NavBar';
 import SignUpPage from '../SignUpPage/SignUpPage';
 import { getUser } from '../../services/authService';
 import LogInPage from '../LogInPage/LogInPage';
+import PostDetailPage from '../PostDetailPage/PostDetailPage';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
@@ -21,6 +22,7 @@ export default function App() {
             <Route path="/posts" element={<PostListPage />} />
             <Route path="/posts/new" element={<NewPostPage />} />
             <Route path="*" element={null}/>
+            <Route path='/posts/:postId' element={<PostDetailPage/>}/>
           </Routes>
         ) : (
           <Routes>

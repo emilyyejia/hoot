@@ -12,16 +12,26 @@ export default function PostListPage () {
     }, []);
     return (
     <>
-      <h1>Post List</h1>
+      <h1>Hoot List</h1>
       {posts.length ? 
-        <ul>
-            {posts.map((post) => <li key={post._id} >
-              <Link to={`/posts/${post._id}`}>{post.title}</Link>
-              </li>)}
-
-        </ul>
+          <main>
+            {posts.map((post) => (
+              <Link key={post._id} to={`/posts/${post._id}`}>
+                <article>
+                  <header>
+                    <h2>{post.title}</h2>
+                    <p>
+                      {`${post.author.name} posted on
+                ${new Date(post.createdAt).toLocaleDateString()}`}
+                    </p>
+                  </header>
+                  <p>{post.text}</p>
+                </article>
+              </Link>
+            ))}
+          </main>
         :
-        <p>No Posts Yet!</p>
+        <p>No Hoots Yet!</p>
       
       }
 

@@ -14,24 +14,24 @@ export default function NavBar({ user }) {
     }
   return (
     <nav className="NavBar">
-      <NavLink to="/">Home</NavLink>
+      <NavLink to="/">HOME</NavLink>
       &nbsp; | &nbsp;
       {user ? (
         <>
           <NavLink to="/posts" end>
-            Post List
+            HOOTS
           </NavLink>
           &nbsp; | &nbsp;
-          <NavLink to="/posts/new">New Post</NavLink>
+          <NavLink to="/posts/new">NEW HOOT</NavLink>
           &nbsp; | &nbsp;
-          <Link to="/" onClick={handleLogOut}>Log Out</Link>
+          <Link to="/" onClick={handleLogOut}>LOG OUT</Link>
           <span>Welcome, {user.name}</span>
         </>
       ) : (
         <>
-          <NavLink to="/login">Log In</NavLink>
+          <NavLink to="/login">LOG IN</NavLink>
           &nbsp; | &nbsp;
-          <NavLink to="/signup">Sign Up</NavLink>
+          <NavLink to="/signup">SIGN UP</NavLink>
         </>
       )}
     </nav>

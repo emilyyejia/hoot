@@ -1,11 +1,12 @@
-import { useState } from "react"
-import { useNavigate } from "react-router";
+import { useState, useEffect } from "react"
+import { useNavigate, useParams } from "react-router";
 import * as postService from '../../services/postService'
 
-export default function NewPostPage () {
+export default function NewPostPage() {
+  const { postId } = useParams();
   const [formData, setFormData] = useState({
     title: '',
-    category: '',
+    category: 'general',
     text: '',
   });
   const [errorMsg, setErrorMsg] = useState('');
@@ -18,57 +19,80 @@ export default function NewPostPage () {
 
   async function handleSubmit(evt) {
     evt.preventDefault();
-    try {
+    if (postId) {
+      await postService.update(postId, formData);
+      navigate(`/posts/${postId}`);
+
+    } else {
+      try {
         // sendRequest is expecting an object as the payload
-       await postService.create(formData);
-       console.log(formData);
-       navigate('/posts');
-    } catch (err) {
+        await postService.create(formData);
+        console.log(formData);
+        navigate('/posts');
+      } catch (err) {
         setErrorMsg('Adding Post Failed');
         console.log(err);
+      }
+
+
     }
+
 
   }
 
+  // src/components/HootForm/HootForm.jsx
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      const postData = await postService.show(postId);
+      setFormData(postData);
+    };
+    if (postId) fetchPost();
+    return () => setFormData({ title: '', text: '', category: 'general' });
+  }, [postId]);
+
+
   return (
-    <>
-     <h2>Add Hoot</h2>
-      <form autoComplete="off" onSubmit={handleSubmit}> 
-        <label>Title</label>
+    <main>
+      <h1>{postId ? 'Edit Hoot' : 'New Hoot'}</h1>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor='title-input'>Title</label>
         <input
-          type="text"
-          name="title"
+          required
+          type='text'
+          name='title'
+          id='title-input'
           value={formData.title}
           onChange={handleChange}
-          required
         />
-        <label>Category</label>
-        <select
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          required
-        >
-          <option value="" disabled>Select a category</option>
-          <option value="general">General</option>
-          <option value="question">Question</option>
-          <option value="meme">Meme</option>
-          <option value="announcement">Announcement</option>
-          <option value="event">Event</option>
-        </select>
-        <label>Post</label>
+        <label htmlFor='text-input'>Text</label>
         <textarea
-          type="text"
-          name="text"
+          required
+          type='text'
+          name='text'
+          id='text-input'
           value={formData.text}
           onChange={handleChange}
-          required
         />
-        <button type="submit" >
-          ADD POST
-        </button>
+        <label htmlFor='category-input'>Category</label>
+        <select
+          required
+          name='category'
+          id='category-input'
+          value={formData.category}
+          onChange={handleChange}
+        >
+          <option value='general'>General</option>
+          <option value='question'>Question</option>
+          <option value='meme'>Meme</option>
+          <option value='announcement'>Announcement</option>
+          <option value='event'>Event</option>
+        </select>
+        <button type='submit'>SUBMIT</button>
       </form>
       <p className="error-message">&nbsp;{errorMsg}</p>
-    </>
+    </main>
+
+
   );
 }

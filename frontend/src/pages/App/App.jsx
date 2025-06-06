@@ -21,8 +21,9 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/posts" element={<PostListPage />} />
             <Route path="/posts/new" element={<NewPostPage />} />
+            <Route path="/posts/:postId/edit" element={<NewPostPage />} />
             <Route path="*" element={null}/>
-            <Route path='/posts/:postId' element={<PostDetailPage/>}/>
+            <Route path='/posts/:postId' element={<PostDetailPage user={user}/>}/>
           </Routes>
         ) : (
           <Routes>
